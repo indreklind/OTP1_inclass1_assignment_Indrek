@@ -8,12 +8,15 @@ class TemperatureConverterTest {
     @Test
     void testFahrenheitToCelsius() {
         assertEquals(0, converter.fahrenheitToCelsius(32));
+        assertEquals(37, converter.fahrenheitToCelsius(98.6));
     }
 
     @Test
     void testCelsiusToFahrenheit() {
+        assertEquals(-40, converter.celsiusToFahrenheit(-40));
         assertEquals(32, converter.celsiusToFahrenheit(0));
     }
+
 
     @Test
     void testIsExtremeTemperature() {
