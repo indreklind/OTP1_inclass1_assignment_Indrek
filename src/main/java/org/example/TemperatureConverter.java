@@ -18,4 +18,7 @@ public class TemperatureConverter {
         }
         return false;
     }
+    public double kelvinToCelsius(double kelvin) {
+        return kelvin - 273.15;
+    }
 }
