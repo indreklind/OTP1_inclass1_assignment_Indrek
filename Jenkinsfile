@@ -3,7 +3,8 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/indreklind/OTP1_inclass1_assignment_Indrek.git'
+                git branch: 'main',
+                    url: 'https://github.com/indreklind/OTP1_inclass1_assignment_Indrek.git'
             }
         }
         stage('Build') {
