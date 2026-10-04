@@ -35,5 +35,24 @@ pipeline {
                 jacoco()
             }
         }
+
+        stage('Docker Build') {
+            steps {
+                bat 'docker build --no-cache -t indreklind/temperature-app:latest .'
+            }
+        }
+
+        stage('Docker Push') {
+            steps {
+                withCredentials([usernamePassword(
+                    credentialsId: 'dockerhub',
+                    usernameVariable: 'DOCKER_USER',
+                    passwordVariable: 'DOCKER_PASS'
+                )]) {
+                    bat 'echo %DOCKER_PASS% | docker login -u %DOCKER_USER% --password-stdin'
+                    bat 'docker push indreklind/temperature-app:latest'
+                }
+            }
+        }
     }
 }
