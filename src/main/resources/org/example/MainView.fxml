@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.example.MainController"
+      spacing="10" style="-fx-padding: 20;">
+
+    <!-- Travel Calculator -->
+    <Label text="%travel.title" />
+    <TextField fx:id="distanceField" promptText="%travel.distance" />
+    <TextField fx:id="speedField" promptText="%travel.speed" />
+    <Button text="%travel.calculate" onAction="#calculateTravel" />
+    <Label fx:id="resultLabel" text="%travel.time" />
+
+    <Separator />
+
+    <!-- Temperature Converter -->
+    <Label text="%temperature.title" />
+    <TextField fx:id="tempInput" promptText="%temperature.prompt" />
+    <Button text="%temperature.cToF" onAction="#convertCToF" />
+    <Button text="%temperature.fToC" onAction="#convertFToC" />
+    <Button text="%temperature.kToC" onAction="#convertKToC" />
+    <Label fx:id="tempResult" text="%temperature.result" />
+
+</VBox>

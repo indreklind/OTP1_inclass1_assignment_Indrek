@@ -9,7 +9,6 @@ RUN mvn clean package dependency:copy-dependencies \
     -DincludeScope=runtime \
     -DoutputDirectory=target/dependency
 
-
 FROM eclipse-temurin:21-jdk
 
 WORKDIR /app
@@ -29,4 +28,4 @@ COPY --from=build /app/target/dependency /app/lib
 
 ENV DISPLAY=host.docker.internal:0.0
 
-CMD ["java", "--module-path", "/app/lib", "--add-modules", "javafx.controls", "-cp", "/app/classes:/app/lib/*", "org.example.Main"]
+CMD ["java", "--module-path", "/app/lib", "--add-modules", "javafx.controls,javafx.fxml", "-cp", "/app/classes:/app/lib/*", "org.example.Main"]
