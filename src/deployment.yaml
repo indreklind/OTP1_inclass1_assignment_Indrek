@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: temperature-gui-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: temperature-gui
+  template:
+    metadata:
+      labels:
+        app: temperature-gui
+    spec:
+      containers:
+        - name: temperature-gui-container
+          image: indreklind/temperature-app:latest
+          env:
+            - name: DISPLAY
+              value: "host.docker.internal:0.0"
