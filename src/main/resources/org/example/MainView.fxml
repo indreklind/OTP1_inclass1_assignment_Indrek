@@ -1,28 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="org.example.MainController"
-      spacing="10" style="-fx-padding: 20;">
+      spacing="10">
 
-    <!-- Travel Calculator -->
-    <Label text="%travel.title" />
-    <TextField fx:id="distanceField" promptText="%travel.distance" />
-    <TextField fx:id="speedField" promptText="%travel.speed" />
-    <Button text="%travel.calculate" onAction="#calculateTravel" />
-    <Label fx:id="resultLabel" text="%travel.time" />
+    <padding>
+        <Insets top="15" right="15" bottom="15" left="15"/>
+    </padding>
 
-    <Separator />
+    <Label fx:id="titleLabel" text="%app.title"
+           style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
 
-    <!-- Temperature Converter -->
-    <Label text="%temperature.title" />
-    <TextField fx:id="tempInput" promptText="%temperature.prompt" />
-    <Button text="%temperature.cToF" onAction="#convertCToF" />
-    <Button text="%temperature.fToC" onAction="#convertFToC" />
-    <Button text="%temperature.kToC" onAction="#convertKToC" />
-    <Label fx:id="tempResult" text="%temperature.result" />
+    <HBox spacing="10">
+        <Label text="%language.label"/>
+        <ComboBox fx:id="languageBox" onAction="#changeLanguage"/>
+    </HBox>
+
+    <Separator/>
+
+    <Label text="%temperature.title"
+           style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+    <TextField fx:id="tempInput" promptText="%temperature.prompt"/>
+
+    <HBox spacing="10">
+        <ComboBox fx:id="fromUnitBox" HBox.hgrow="ALWAYS"/>
+        <ComboBox fx:id="toUnitBox" HBox.hgrow="ALWAYS"/>
+    </HBox>
+
+    <Button text="%temperature.convert"
+            onAction="#convertTemperature" maxWidth="Infinity"/>
+
+    <Label fx:id="tempResult" wrapText="true"/>
+
+    <Label text="%history.title"
+           style="-fx-font-weight: bold;"/>
+    <ListView fx:id="historyList" prefHeight="100"/>
+
+    <Separator/>
+
+    <Label text="%travel.title"
+           style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+
+    <TextField fx:id="distanceField" promptText="%travel.distance"/>
+    <TextField fx:id="speedField" promptText="%travel.speed"/>
+
+    <Button text="%travel.calculate"
+            onAction="#calculateTravel" maxWidth="Infinity"/>
+
+    <Label fx:id="travelResult" wrapText="true"/>
 
 </VBox>
