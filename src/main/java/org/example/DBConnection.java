@@ -1,52 +1,46 @@
 package org.example;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 public class DBConnection {
-
     private static final String URL = "jdbc:sqlite:temperature.db";
 
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL);
+        Connection connection = DriverManager.getConnection(URL);
+        try (Statement st = connection.createStatement()) {
+            st.execute("PRAGMA foreign_keys = ON");
+        }
+        return connection;
     }
 
     public static void createTables() {
-        String createTemperatureUnitTable = """
-                CREATE TABLE IF NOT EXISTS temperature_unit (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    name TEXT NOT NULL,
-                    symbol TEXT NOT NULL
-                );
-                """;
+        try (Connection con = getConnection()) {
+            InputStream input = DBConnection.class
+                    .getClassLoader().getResourceAsStream("init.sql");
 
-        String createTempRecordTable = """
-                CREATE TABLE IF NOT EXISTS temp_record (
-                    id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    distance REAL NOT NULL,
-                    speed REAL NOT NULL,
-                    time REAL NOT NULL,
-                    unit_id INTEGER,
-                    FOREIGN KEY (unit_id) REFERENCES temperature_unit(id)
-                );
-                """;
-        try (Connection connection = getConnection();
-             Statement statement = connection.createStatement()) {
+            if (input == null) {
+                throw new IllegalStateException("init.sql not found");
+            }
 
-            statement.execute(createTemperatureUnitTable);
-            statement.execute(createTempRecordTable);
+            String sql;
+            try (BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(input, StandardCharsets.UTF_8))) {
+                sql = reader.lines().collect(java.util.stream.Collectors.joining("\n"));
+            }
 
-            statement.execute("""
-                INSERT OR IGNORE INTO temperature_unit (id, name, symbol)
-                VALUES (1, 'Celsius', '°C')
-                """);
+            try (Statement st = con.createStatement()) {
+                for (String command : sql.split(";")) {
+                    if (!command.isBlank()) {
+                        st.execute(command);
+                    }
+                }
+            }
 
-            System.out.println("Database tables created.");
-
-        } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("Database initialized.");
+        } catch (Exception e) {
+            throw new RuntimeException("Database initialization failed", e);
         }
     }
 }

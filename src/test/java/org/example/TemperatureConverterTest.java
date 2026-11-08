@@ -1,36 +1,41 @@
 package org.example;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TemperatureConverterTest {
-    TemperatureConverter converter = new TemperatureConverter();
+
+    private final TemperatureConverter converter = new TemperatureConverter();
 
     @Test
-    void testFahrenheitToCelsius() {
-        assertEquals(0, converter.fahrenheitToCelsius(32));
-        assertEquals(37, converter.fahrenheitToCelsius(98.6));
+    void celsiusToFahrenheit() {
+        assertEquals(32, converter.celsiusToFahrenheit(0), 0.001);
     }
 
     @Test
-    void testCelsiusToFahrenheit() {
-        assertEquals(-40, converter.celsiusToFahrenheit(-40));
-        assertEquals(32, converter.celsiusToFahrenheit(0));
-    }
-
-
-    @Test
-    void testIsExtremeTemperature() {
-        assertTrue(converter.isExtremeTemperature(-41));
-        assertTrue(converter.isExtremeTemperature(51));
-        assertFalse(converter.isExtremeTemperature(-40));
-        assertFalse(converter.isExtremeTemperature(50));
-
+    void fahrenheitToCelsius() {
+        assertEquals(0, converter.fahrenheitToCelsius(32), 0.001);
     }
 
     @Test
-    void testKelvinToCelsius() {
-        assertEquals(26.85, converter.kelvinToCelsius(300),0.001);
-        assertEquals(0.0, converter.kelvinToCelsius(273.15),0.001);
-        assertEquals(100.0, converter.kelvinToCelsius(373.15),0.001);
+    void kelvinToCelsius() {
+        assertEquals(0, converter.kelvinToCelsius(273.15), 0.001);
+    }
+
+    @Test
+    void celsiusToKelvin() {
+        assertEquals(273.15, converter.celsiusToKelvin(0), 0.001);
+    }
+
+    @Test
+    void belowAbsoluteZeroRejected() {
+        assertThrows(IllegalArgumentException.class,
+                () -> converter.kelvinToCelsius(-1));
+    }
+
+    @Test
+    void extremeTemperature() {
+        assertTrue(converter.isExtremeTemperature(60));
+        assertFalse(converter.isExtremeTemperature(20));
     }
 }

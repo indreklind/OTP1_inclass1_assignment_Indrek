@@ -13,8 +13,7 @@ class TempRecordDAOTest {
         TempRecord record = new TempRecord(
                 120.0,
                 60.0,
-                2.0,
-                1
+                2.0
         );
 
         TempRecordDAO dao = new TempRecordDAO();
